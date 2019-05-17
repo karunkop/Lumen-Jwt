@@ -8,4 +8,12 @@ class User extends Model
 {
     protected $fillable = ['name','email','password'];
     protected $hidden =['password'];
+
+    public function events()
+    {
+        return $this->belongsToMany('App\Event');
+    }
+
 }
+
+

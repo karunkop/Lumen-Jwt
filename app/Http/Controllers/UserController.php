@@ -15,17 +15,23 @@ class UserController extends Controller
             "password"=>hash('sha256',$request->input('password').env('APP_SALT')),
         ])->first();
 
+
+
         if($user){
+
             $payload= [
                 "id" => $user->id,
                 "iat"=> time()
             ];
 
+
             $jwt = JWT::encode($payload, env('APP_KEY'));
 
             return [
                 "mssg"=>'Login successfull',
-                "token" => $jwt
+                "token" => $jwt,
+
+
             ];
         } else {
             return [
@@ -33,6 +39,11 @@ class UserController extends Controller
             ];
         }
 
+    }
+
+    public function logout(){
+        Session::flush();
+        return Redirect::route('/home');
     }
     public function signup(Request $request){
      $this->validate($request,[
@@ -51,13 +62,47 @@ class UserController extends Controller
      ];
 
     }
+    public function list(){
+         $users = User::all();
+        return $users;
+    }
 
     public function home(){
         return [
-            "message" => "Hello",
-            "user" => Auth::user()
+            "user" => Auth::user(),
+
         ];
     }
+    public function events(){
+        return [
+            "events" => Auth::user()->events,
+
+        ];
+    }
+
+
+    public function attachEvent($id, $event_id){
+        $user = User::findOrFail($id);
+
+        $user->events()->syncWithoutDetaching([$event_id]);
+
+        return [
+            "message" => "Event was attached."
+        ];
+    }
+
+    public function detachEvent($id, $event_id){
+        $user = User::findOrFail($id);
+
+        $user->events()->detach($event_id);
+
+        return [
+            "message" => "Event was detached."
+        ];
+    }
+
+
+
 }
 
 
