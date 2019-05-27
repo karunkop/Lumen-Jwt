@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
-    protected $fillable = ['name','email','password'];
+    protected $fillable = ['username','email','password','phone_no','address'];
     protected $hidden =['password'];
 
     public function events()

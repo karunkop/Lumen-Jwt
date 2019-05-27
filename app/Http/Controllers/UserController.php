@@ -11,11 +11,9 @@ class UserController extends Controller
 {
     public function login(Request $request){
         $user = User::where([
-            "email"=>$request->input('email'),
+            "username"=>$request->input('username'),
             "password"=>hash('sha256',$request->input('password').env('APP_SALT')),
         ])->first();
-
-
 
         if($user){
 
@@ -41,15 +39,14 @@ class UserController extends Controller
 
     }
 
-    public function logout(){
-        Session::flush();
-        return Redirect::route('/home');
-    }
+
     public function signup(Request $request){
      $this->validate($request,[
-         "name"=> 'required',
+         "username"=> 'required|unique:users',
          "email"=> 'required|email|unique:users',
-         "password"=>'required|min:6'
+         "password"=>'required|min:6',
+         "phone_no"=>'required',
+         "address"=>'required'
      ]);
 
      $inputs= $request->all();
@@ -64,7 +61,10 @@ class UserController extends Controller
     }
     public function list(){
          $users = User::all();
-        return $users;
+        return [
+            "mssg"=> 'Details of all Users',
+            "details"=> $users
+        ];
     }
 
     public function home(){
@@ -76,7 +76,6 @@ class UserController extends Controller
     public function events(){
         return [
             "events" => Auth::user()->events,
-
         ];
     }
 

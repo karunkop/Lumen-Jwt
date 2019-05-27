@@ -96,8 +96,6 @@ $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
-    require __DIR__.'/../routes/book.php';
-    require __DIR__.'/../routes/author.php';
     require __DIR__.'/../routes/user.php';
 
 });
