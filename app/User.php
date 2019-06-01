@@ -6,14 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
-    protected $fillable = ['username','email','password','phone_no','address'];
+    protected $fillable = ['username','f_name','l_name','email','password','phone_no','address','permission','bio'];
     protected $hidden =['password'];
 
-    public function events()
-    {
-        return $this->belongsToMany('App\Event');
+    public function location(){
+        return $this->hasOne('App\Location');
     }
-
 }
 
 

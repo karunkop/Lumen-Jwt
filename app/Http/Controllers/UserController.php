@@ -26,13 +26,13 @@ class UserController extends Controller
 
             return Response::json([
                 "mssg"=>'Login successfull',
+                "user"=>$user,
                 "token" => $jwt,
-
             ],200);
         } else {
-            return Response::json([
+            return response()->json([
                 "mssg"=>'Login failed'
-            ],422);
+            ],400);
         }
 
     }
@@ -40,9 +40,13 @@ class UserController extends Controller
     public function signup(Request $request){
      $this->validate($request,[
          "username"=> 'required|unique:users',
+         "f_name"=> 'required',
+         "l_name"=> 'required',
          "email"=> 'required|email|unique:users',
          "password"=>'required|min:6',
          "phone_no"=>'required',
+         "permission"=>'required',
+         "bio"=>'required',
          "address"=>'required'
      ]);
 
@@ -67,37 +71,8 @@ class UserController extends Controller
     public function home(){
         return [
             "user" => Auth::user(),
-
         ];
     }
-    public function events(){
-        return [
-            "events" => Auth::user()->events,
-        ];
-    }
-
-
-    public function attachEvent($id, $event_id){
-        $user = User::findOrFail($id);
-
-        $user->events()->syncWithoutDetaching([$event_id]);
-
-        return [
-            "message" => "Event was attached."
-        ];
-    }
-
-    public function detachEvent($id, $event_id){
-        $user = User::findOrFail($id);
-
-        $user->events()->detach($event_id);
-
-        return [
-            "message" => "Event was detached."
-        ];
-    }
-
-
 
 }
 

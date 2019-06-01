@@ -16,10 +16,16 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('username');
+            $table->string('f_name');
+            $table->string('l_name');
             $table->string('email');
             $table->string('password');
             $table->string('phone_no');
-            $table->string('address');
+			$table->string('address');
+			//whether user has give permission to see their details
+			$table->boolean('permission');
+			//the bio of the user
+			$table->string('bio');
             $table->timestamps();
         });
     }
