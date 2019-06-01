@@ -22,23 +22,20 @@ class UserController extends Controller
                 "iat"=> time()
             ];
 
-
             $jwt = JWT::encode($payload, env('APP_KEY'));
 
-            return [
+            return Response::json([
                 "mssg"=>'Login successfull',
                 "token" => $jwt,
 
-
-            ];
+            ],200);
         } else {
-            return [
+            return Response::json([
                 "mssg"=>'Login failed'
-            ];
+            ],422);
         }
 
     }
-
 
     public function signup(Request $request){
      $this->validate($request,[
