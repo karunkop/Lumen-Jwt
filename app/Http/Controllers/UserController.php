@@ -37,8 +37,60 @@ class UserController extends Controller
         }
 
     }
+    public function update($id, Request $request){
+        $this->validate($request,[
+            "username"=> 'unique:users',
+            "bio"=>'',
+            "f_name"=> '',
+            "l_name"=> '',
+            "email"=> 'email|unique:users',
+            "phone_no"=>'',
+            "address"=>''
+        ]);
+        $user = User::findOrFail($id);
+        if($request->has('username')){
 
+            $user['username'] = $request->input('username');
+        }
+        if($request->has('bio')){
 
+            $user['bio'] = $request->input('bio');
+        }
+        if($request->has('f_name')){
+
+            $user['f_name'] = $request->input('f_name');
+        }
+        if($request->has('l_name')){
+
+            $user['l_name'] = $request->input('l_name');
+        }
+        if($request->has('email')){
+
+            $user['email'] = $request->input('email');
+        }
+        if($request->has('phone_no')){
+
+            $user['phone_no'] = $request->input('phone_no');
+        }
+        if($request->has('address')){
+            $user['address'] = $request->input('address');
+        }
+        $user->save();
+        return response()->json([
+            "mssg"=>'Update Success',
+            'user'=>$user
+        ],200);
+    }
+    public function changePermission(Request $request){
+
+        $this->validate($request,[
+            'permission'=>'required'
+        ]);
+        $user = Auth::user();
+        $user['permission'] = $request->input('permission');
+        $user->save();
+        return $user;
+    }
     public function signup(Request $request){
      $this->validate($request,[
          "username"=> 'required|unique:users',
