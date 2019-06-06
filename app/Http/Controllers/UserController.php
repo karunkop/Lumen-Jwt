@@ -22,14 +22,13 @@ class UserController extends Controller
                 "iat"=> time()
             ];
 
-
             $jwt = JWT::encode($payload, env('APP_KEY'));
 
-            return [
+            return Response::json([
                 "mssg"=>'Login successfull',
                 "user"=>$user,
                 "token" => $jwt,
-            ];
+            ],200);
         } else {
             return response()->json([
                 "mssg"=>'Login failed'
@@ -65,7 +64,6 @@ class UserController extends Controller
             $user['l_name'] = $request->input('l_name');
         }
         if($request->has('email')){
-
             $user['email'] = $request->input('email');
         }
         if($request->has('phone_no')){
@@ -91,6 +89,7 @@ class UserController extends Controller
         $user->save();
         return $user;
     }
+
     public function signup(Request $request){
      $this->validate($request,[
          "username"=> 'required|unique:users',
