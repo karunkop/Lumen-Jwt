@@ -24,7 +24,7 @@ class UserController extends Controller
 
             $jwt = JWT::encode($payload, env('APP_KEY'));
 
-            return Response::json([
+            return response()->json([
                 "mssg"=>'Login successfull',
                 "user"=>$user,
                 "token" => $jwt,

@@ -13,8 +13,8 @@ $router->post('/signup', 'UserController@signup');
   *          "address"=>'required'
  */
 $router->post('/users/{id}/update', ['middleware'=> 'auth', 'uses'=> 'UserController@update']);
-$router->get('/users',['middleware'=> 'auth', 'uses'=> 'UserController@list']);
 $router->put('/users/permission',['middleware'=> 'auth', 'uses'=> 'UserController@changePermission']);
+$router->get('/users',['middleware'=> 'auth', 'uses'=> 'UserController@list']);
 $router->get('/home', ['middleware' => 'auth', 'uses' => 'UserController@home']);
 $router->get('/users/events', ['middleware' => 'auth', 'uses' => 'UserController@events']);
 
